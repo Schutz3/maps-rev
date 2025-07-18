@@ -8,8 +8,6 @@ const PORT = process.env.PORT || 3000;
 const MASTER_API_KEY = process.env.API_KEY;
 let reviewCount = 0;
 
-
-
 function parseRawReviews(rawReviews) {
     if (!rawReviews || !Array.isArray(rawReviews)) {
         return [];
@@ -112,6 +110,8 @@ app.get('/health', (req, res) => {
     res.json({
         status: "ok",
         uptime: Math.floor(uptime) + " seconds",
+        node_version: process.version,
+        memory_usage: process.memoryUsage().heapUsed / 1024 / 1024 + " MB",
         review_count: reviewCount
     });
 });
