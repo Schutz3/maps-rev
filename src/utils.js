@@ -5,7 +5,8 @@ import parser from "./parser.js";
 
 export function validateParams(url, sort_type, pages, clean) {
     const parsedUrl = new URL(url);
-    if (parsedUrl.host !== "www.google.com" || !parsedUrl.pathname.startsWith("/maps/place/")) {
+    const isGoogleHost = parsedUrl.host === "google.com" || parsedUrl.host.endsWith(".google.com");
+    if (!isGoogleHost || !parsedUrl.pathname.startsWith("/maps/place/")) {
         throw new Error(`Invalid URL: ${url}`);
     }
     if (!SortEnum[sort_type]) {
