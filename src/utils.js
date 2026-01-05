@@ -19,9 +19,10 @@ export function validateParams(url, sort_type, pages, clean) {
     }
 }
 
-export async function fetchReviews(url, sort, nextPage = "", search_query = "") {
+export async function fetchReviews(url, sort, nextPage = "", search_query = "", cookies = process.env.GOOGLE_MAPS_COOKIES) {
     const apiUrl = listugcposts(url, sort, nextPage, search_query);
-    const response = await fetch(apiUrl);
+    const headers = cookies ? { cookie: cookies } : undefined;
+    const response = await fetch(apiUrl, { headers });
     if (!response.ok) {
         throw new Error(`Failed to fetch reviews: ${response.statusText}`);
     }
@@ -30,13 +31,13 @@ export async function fetchReviews(url, sort, nextPage = "", search_query = "") 
     return JSON.parse(rawData);
 }
 
-export async function paginateReviews(url, sort, pages, search_query, clean, initialData) {
+export async function paginateReviews(url, sort, pages, search_query, clean, initialData, cookies = process.env.GOOGLE_MAPS_COOKIES) {
     let reviews = initialData[2];
     let nextPage = initialData[1]?.replace(/"/g, "");
     let currentPage = 2;
     while (nextPage && (pages === "max" || currentPage <= +pages)) {
         console.log(`Scraping page ${currentPage}...`);
-        const data = await fetchReviews(url, sort, nextPage, search_query);
+        const data = await fetchReviews(url, sort, nextPage, search_query, cookies);
         reviews = [...reviews, ...data[2]];
         nextPage = data[1]?.replace(/"/g, "");
         if (!nextPage) break;
