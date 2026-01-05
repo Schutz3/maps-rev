@@ -6,6 +6,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 const MASTER_API_KEY = process.env.API_KEY;
+const GOOGLE_MAPS_COOKIES = process.env.GOOGLE_MAPS_COOKIES || null;
 let reviewCount = 0;
 
 function parseRawReviews(rawReviews) {
@@ -116,4 +117,7 @@ app.get('/health', (req, res) => {
     });
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Google Maps Cookies: ${GOOGLE_MAPS_COOKIES}`);
+});
