@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  google-maps-review-scraper:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: maps-rev-api
+    container_name: maps-rev-app
+    ports:
+      - "10000:10000"
+    restart: always
+    env_file:
+      - .env

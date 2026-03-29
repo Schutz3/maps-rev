@@ -1,0 +1,13 @@
+node_modules
+dist
+.git
+.gitignore
+.env
+.dockerignore
+Dockerfile
+docker-compose.yml
+ReadMe.md
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+LICENSE
+docs/
